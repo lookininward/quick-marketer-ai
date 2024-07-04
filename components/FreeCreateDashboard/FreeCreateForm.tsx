@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { useFreeCreateContext } from "@/context/FreeCreateContext";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon, MicrophoneIcon } from "@heroicons/react/24/outline";
-import { useFetchSubjects } from "@/api/queries/useFetchSubjects";
+import { useFetchTags } from "@/api/queries/useFetchTags";
 
 export const freeCreateFormSchema = z.object({
     platform: z.enum([
@@ -133,7 +133,7 @@ function FreeCreateForm() {
         }
     };
 
-    const { data: subjects, isLoading: isLoadingSubjects } = useFetchSubjects();
+    const { data: subjects, isLoading: isLoadingSubjects } = useFetchTags();
 
     return (
         <Form {...form}>

@@ -15,7 +15,7 @@ declare type Platform = {
     about?: string;
 };
 
-declare type Subject = {
+declare type Tag = {
     id: string;
     name: string;
     description: string;

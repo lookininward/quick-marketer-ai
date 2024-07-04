@@ -13,8 +13,8 @@ const LINKS = [
         icon: SparklesIcon
     },
     {
-        href: "/subjects",
-        text: "Subjects",
+        href: "/tags",
+        text: "Tags",
         icon: TagIcon
     },
     {
