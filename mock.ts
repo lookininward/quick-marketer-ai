@@ -75,23 +75,4 @@ export const platforms: Platform[] = [
     },
 ];
 
-export const subjects: Subject[] = [
-    {
-        id: "1",
-        name: "New Product Launch",
-    },
-    {
-        id: "2",
-        name: "Customer Appreciate Message",
-    },
-    {
-        id: "3",
-        name: "Company Update",
-    },
-    {
-        id: "4",
-        name: "Promotion",
-    },
-];
-
 export const MAX_GENERATIONS = 10;

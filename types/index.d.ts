@@ -18,4 +18,5 @@ declare type Platform = {
 declare type Subject = {
     id: string;
     name: string;
+    description: string;
 };

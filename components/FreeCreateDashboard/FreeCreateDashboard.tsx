@@ -18,10 +18,10 @@ function FreeCreateDashboard() {
   const { isGenerating, selectedPlatform } = useFreeCreateContext();
 
   return (
-    <div className="w-full flex justify-start items-start" >
-      < FreeCreateSidebar />
+    <div className="w-full h-full flex justify-start items-start" >
+      <FreeCreateSidebar />
 
-      < div className="flex flex-col items-center justify-center w-full h-full">
+      <div className="flex flex-col items-center justify-center w-full h-full">
         <NumGenerationsBar />
 
         <div className="flex flex-col items-center justify-center w-full h-full">

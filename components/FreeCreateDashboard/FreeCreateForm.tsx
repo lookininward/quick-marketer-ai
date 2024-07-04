@@ -18,12 +18,13 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea"
-import { subjects, products, personas, platforms, MAX_GENERATIONS } from "@/mock";
+import { products, personas, platforms, MAX_GENERATIONS } from "@/mock";
 import { PlatformEnum } from "@/types/platform";
 import { useEffect, useState } from "react";
 import { useFreeCreateContext } from "@/context/FreeCreateContext";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon, MicrophoneIcon } from "@heroicons/react/24/outline";
+import { useFetchSubjects } from "@/api/queries/useFetchSubjects";
 
 export const freeCreateFormSchema = z.object({
     platform: z.enum([
@@ -131,6 +132,9 @@ function FreeCreateForm() {
             recognition.stop();
         }
     };
+
+    const { data: subjects, isLoading: isLoadingSubjects } = useFetchSubjects();
+
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-1">
@@ -218,15 +222,22 @@ function FreeCreateForm() {
                                                 control={form.control}
                                                 render={({ field }) => (
                                                     <Select value={field.value} onValueChange={field.onChange} disabled={isGenerating}>
-                                                        <SelectTrigger className="w-full">
+                                                        <SelectTrigger className="w-full" value={field.value}>
                                                             <SelectValue placeholder="Select a Subject" />
                                                         </SelectTrigger>
                                                         <SelectContent>
-                                                            {subjects.map((subject) => (
+                                                            {!isLoadingSubjects && subjects?.map((subject) => (
                                                                 <SelectItem key={subject.id} value={subject.name}>
                                                                     {subject.name}
                                                                 </SelectItem>
                                                             ))}
+
+                                                            {isLoadingSubjects && (
+                                                                <div className="px-2 text-center">
+                                                                    ...
+                                                                </div>
+
+                                                            )}
                                                         </SelectContent>
                                                     </Select>
                                                 )}
