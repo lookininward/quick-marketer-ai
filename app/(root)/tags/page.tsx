@@ -23,7 +23,7 @@ import { useMemo, useState } from "react";
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { useFetchTags } from "@/api/queries/useFetchTags";
+import { useFetchTags } from "@/query-api/queries/useFetchTags";
 import Info from "@/components/Info";
 import NotFound from "@/components/NotFound";
 import SearchBar from "@/components/SearchBar";
@@ -51,14 +51,15 @@ function Tags() {
 
     const hasReachedTagLimit = tags?.length === 10;
 
-
     const [tagToEdit, setTagToEdit] = useState<Tag>();
     const onClickEdit = (tag: Tag) => {
         setTagToEdit(tag);
     }
 
+    const [open, setOpen] = useState(false);
+
     return (
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
             <div className="relative h-full py-7 px-10 pb-0 flex flex-col align-center">
                 <h1 className="text-xl font-semibold mb-4">Tags</h1>
 
@@ -73,6 +74,7 @@ function Tags() {
                 </div>
 
                 {/* Max Limit Reached */}
+                {/* TODO wrap everything with dialogcontent and conditionally render within */}
                 {hasReachedTagLimit ? (
                     <DialogContent>
                         <DialogHeader>
@@ -89,7 +91,13 @@ function Tags() {
                         <DialogHeader>
                             <DialogTitle>{tagToEdit ? "Edit" : "Create"} Tag</DialogTitle>
                         </DialogHeader>
-                        <TagForm tag={tagToEdit} />
+                        <TagForm
+                            tag={tagToEdit}
+                            onSuccess={() => {
+                                setTagToEdit(undefined)
+                                setOpen(false)
+                            }}
+                        />
                     </DialogContent>
                 )}
 

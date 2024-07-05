@@ -8,8 +8,8 @@ const LINKS = [
         icon: HomeModernIcon
     },
     {
-        href: "/free-create",
-        text: "Free Create",
+        href: "/create",
+        text: "Create",
         icon: SparklesIcon
     },
     {

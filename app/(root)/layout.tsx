@@ -1,7 +1,7 @@
 'use client';
 
 import Nav from "@/components/Nav";
-import QueryPovider from "@/api/client";
+import QueryPovider from "@/query-api/client";
 
 export default function RootLayout({
   children,

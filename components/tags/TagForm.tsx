@@ -14,6 +14,9 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "../ui/input";
+import { useCreateTag } from "@/query-api/mutations/useCreateTag";
+import { useDeleteTag } from "@/query-api/mutations/useDeleteTag";
+import { useUpdateTag } from "@/query-api/mutations/useUpdateTag";
 
 export const createTagFormSchema = z.object({
     name: z.string()
@@ -24,7 +27,7 @@ export const createTagFormSchema = z.object({
         .optional(),
 });
 
-function TagForm({ tag }: { tag?: Tag }) {
+function TagForm({ tag, onSuccess }: { tag?: Tag, onSuccess?: () => void }) {
     const form = useForm({
         resolver: zodResolver(createTagFormSchema),
         defaultValues: {
@@ -33,8 +36,38 @@ function TagForm({ tag }: { tag?: Tag }) {
         },
     });
 
-    function onSubmit(values: z.infer<typeof createTagFormSchema>) {
-        console.log(values);
+    const { mutate: createTag, isError, error } = useCreateTag();
+    const { mutate: deleteTag } = useDeleteTag();
+    const { mutate: updateTag } = useUpdateTag();
+    async function onSubmit(values: z.infer<typeof createTagFormSchema>) {
+        try {
+            const isUpdate = !!tag?.id;
+            const tagData = {
+                ...(isUpdate && { id: tag.id }),
+                name: values.name,
+                description: values.description,
+            } as Tag;
+
+            if (!isUpdate) {
+                await createTag(tagData);
+            } else {
+                await updateTag(tagData);
+            }
+
+            if (onSuccess) onSuccess();
+        } catch (e) {
+            console.error('fail: onSubmit', e);
+        }
+    }
+
+    const onDelete = async () => {
+        try {
+            if (!tag) return;
+            await deleteTag(tag.id);
+            if (onSuccess) onSuccess();
+        } catch (e) {
+            console.error('fail: onDelete', e);
+        }
     }
 
     return (
@@ -84,13 +117,26 @@ function TagForm({ tag }: { tag?: Tag }) {
                     )}
                 />
 
-                <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={false}
-                >
-                    {tag ? 'Update Tag' : 'Create Tag'}
-                </Button>
+                <div className="flex gap-x-2">
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={false}
+                    >
+                        {tag ? 'Update' : 'Create'}
+                    </Button>
+
+                    {tag && (
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            disabled={false}
+                            onClick={onDelete}
+                        >
+                            Delete
+                        </Button>
+                    )}
+                </div>
             </form>
         </Form>
     );

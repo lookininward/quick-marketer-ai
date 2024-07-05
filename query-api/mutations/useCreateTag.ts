@@ -1,11 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 const createTag = async (tag: Tag) => {
-    return {
-        'id': crypto.randomUUID(),
-        'name': tag.name,
-        'description': tag?.description,
-    }
+    const baseUrl = 'http://localhost:3000/api';
+    const url = `${baseUrl}/tags`;
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tag }),
+    });
+    const data = await response.json();
+    return data;
 };
 
 export const useCreateTag = () => {

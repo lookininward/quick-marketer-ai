@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { useFreeCreateContext } from "@/context/FreeCreateContext";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon, MicrophoneIcon } from "@heroicons/react/24/outline";
-import { useFetchTags } from "@/api/queries/useFetchTags";
+import { useFetchTags } from "@/query-api/queries/useFetchTags";
 
 export const freeCreateFormSchema = z.object({
     platform: z.enum([
