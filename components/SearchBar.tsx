@@ -32,7 +32,7 @@ function SearchBar({ onSearch }: { onSearch: (searchText: string) => void }) {
         <Form {...form}>
             <form
                 onSubmit={form.handleSubmit(({ searchText }) => onSearch(searchText))}
-                className='flex flex-row gap-x-4'
+                className='flex flex-row gap-x-2'
             >
                 <FormItem>
                     <FormField

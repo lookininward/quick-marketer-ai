@@ -1,5 +1,4 @@
 import {
-    SelectLabel,
     Select,
     SelectContent,
     SelectItem,

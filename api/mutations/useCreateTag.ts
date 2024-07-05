@@ -1,10 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-const createTag = async (tag) => {
+const createTag = async (tag: Tag) => {
     return {
-        'id': '1',
+        'id': crypto.randomUUID(),
         'name': tag.name,
-        'description': tag.description,
+        'description': tag?.description,
     }
 };
 
