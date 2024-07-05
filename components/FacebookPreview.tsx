@@ -10,7 +10,7 @@ function FacebookPreview({
     description?: string
 }) {
     return (
-        <div className="max-w-sm mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+        <div className="max-w-sm bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
             <div className="md:flex">
                 <div className="md:flex-shrink-0">
                     <Image

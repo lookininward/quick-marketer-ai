@@ -4,7 +4,7 @@ import { VideoCameraIcon } from "@heroicons/react/24/outline"
 
 function VideoPreview() {
     return (
-        <div className="flex flex-col max-w-xl mx-auto gap-y-10">
+        <div className="flex flex-col max-w-xl gap-y-10">
             <Card className="w-full border rounded-lg px-8 py-20 max-w-md mx-auto bg-white">
                 <VideoCameraIcon className="w-12 h-12 mx-auto text-gray-400" />
             </Card >

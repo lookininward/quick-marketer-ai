@@ -2,7 +2,7 @@ import { Card } from "./ui/card"
 
 function TextPreview() {
     return (
-        <Card className="flex flex-col border rounded-lg p-8 max-w-xl mx-auto my-4 bg-white gap-y-3">
+        <Card className="flex flex-col border rounded-lg p-8 max-w-xl bg-white gap-y-3">
             <p>
                 The text output generates  dynamic content based on various contextual inputs such as the provided description, subject, persona, and other attributes. The generated content aims to deliver personalized and contextually relevant information, ensuring it aligns with the intended message and audience.
             </p>
