@@ -32,7 +32,7 @@ function TagForm({ tag, onSuccess }: { tag?: Tag, onSuccess?: () => void }) {
         resolver: zodResolver(createTagFormSchema),
         defaultValues: {
             name: tag ? tag.name : '',
-            description: tag ? tag.description : '',
+            description: tag ? tag.description || '' : '',
         },
     });
 

@@ -10,14 +10,14 @@ function SkeletonTable() {
         <>
             {[...Array(3)].map((_, index) => (
                 <TableRow key={index}>
-                    <TableCell>
-                        <Skeleton className="w-full py-3" />
+                    <TableCell className="w-1/4">
+                        <Skeleton className="py-3" />
                     </TableCell>
-                    <TableCell>
-                        <Skeleton className="w-full py-3" />
+                    <TableCell className="w-2/4">
+                        <Skeleton className="py-3" />
                     </TableCell>
-                    <TableCell>
-                        <Skeleton className="w-full py-3" />
+                    <TableCell className="w-full">
+                        <Skeleton className="py-3" />
                     </TableCell>
                 </TableRow>
             ))}
