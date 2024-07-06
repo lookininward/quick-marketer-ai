@@ -12,7 +12,7 @@ export default function RootLayout({
     <QueryPovider>
       <main className="w-full h-screen grid grid-cols-[80px,1fr] lg:grid-cols-[250px,1fr]">
         <Nav />
-        <div className="overflow-hidden">
+        <div className="h-full w-full overflow-y-scroll">
           {children}
         </div>
       </main>
