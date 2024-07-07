@@ -70,15 +70,15 @@ function Tags() {
                 <TableBody>
                     {!isLoadingTags && filteredTags?.map((tag: Tag) => (
                         <TableRow key={tag.id}>
-                            <TableCell className="w-1/4 py-1.5">
+                            <TableCell className="w-1/4 py-2">
                                 <Badge variant="default">{tag.name}</Badge>
                             </TableCell>
-                            <TableCell className="w-2/4 py-1.5">
+                            <TableCell className="w-2/4 py-2">
                                 <span className="w-full">
                                     {tag.description}
                                 </span>
                             </TableCell>
-                            <TableCell className="w-full flex justify-end py-1.5">
+                            <TableCell className="w-full flex justify-end py-2">
                                 <Button
                                     variant="link"
                                     onClick={() => {
