@@ -7,6 +7,15 @@ declare type Product = {
 declare type Persona = {
     id: string;
     name: string;
+    age: number;
+    height: number; // cm
+    weight: number; // kg
+    description: string;
+    education: Education;
+    occupation: string;
+    location: string;
+    relationship: string;
+    income: number; // USD
 };
 
 declare type Platform = {

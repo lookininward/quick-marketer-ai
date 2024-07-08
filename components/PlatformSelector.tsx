@@ -26,7 +26,6 @@ function PlatformSelector({
     onSelectPlatform: (platform: Platform) => void,
     selectedPlatform: Platform | null
 }) {
-    console.log("monke selectedPlatform", selectedPlatform)
     return (
         <div className="w-full">
             <SelectGroup className="w-full p-1">

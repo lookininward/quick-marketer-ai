@@ -1,23 +1,19 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-const createPersona = async (persona) => {
+const deletePersona = async (id: string) => {
     const baseUrl = 'http://localhost:3000/api';
-    const url = `${baseUrl}/personas`;
+    const url = `${baseUrl}/personas/${id}`;
     const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ persona }),
+        method: 'DELETE',
     });
     const data = await response.json();
     return data;
-};
+}
 
-export const useCreatePersona = () => {
+export const useDeletePersona = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: createPersona,
+        mutationFn: deletePersona,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['personas'] })
         },

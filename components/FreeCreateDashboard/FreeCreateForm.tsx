@@ -25,6 +25,7 @@ import { useFreeCreateContext } from "@/context/FreeCreateContext";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon, MicrophoneIcon } from "@heroicons/react/24/outline";
 import { useFetchTags } from "@/query-api/queries/useFetchTags";
+import { useFetchProducts } from "@/query-api/queries/useFetchProducts";
 
 export const freeCreateFormSchema = z.object({
     platform: z.enum([
@@ -134,6 +135,7 @@ function FreeCreateForm() {
     };
 
     const { data: subjects, isLoading: isLoadingSubjects } = useFetchTags();
+    const { data: products, isLoading: isLoadingProducts } = useFetchProducts();
 
     return (
         <Form {...form}>
@@ -289,7 +291,7 @@ function FreeCreateForm() {
                                                             <SelectValue placeholder="Select a Product" />
                                                         </SelectTrigger>
                                                         <SelectContent>
-                                                            {products.map((product) => (
+                                                            {products.map((product: Product) => (
                                                                 <SelectItem key={product.id} value={product.id}>
                                                                     {product.name}
                                                                 </SelectItem>

@@ -21,68 +21,116 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-    SelectGroup,
 } from "@/components/ui/select"
 import { useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { Education } from "@/types/persona";
+import { useCreatePersona } from "@/query-api/mutations/useCreatePersona";
+import { useDeletePersona } from "@/query-api/mutations/useDeletePersona";
+import { useUpdatePersona } from "@/query-api/mutations/useUpdatePersona";
 
 export const createPersonaFormSchema = z.object({
-    name: z.string().max(50, { message: "Name must be at most 50 characters" }),
-    description: z.string().max(250, { message: "Description must be at most 250 characters" }),
-    age: z.number().int().min(0).max(120).optional(),
-    height: z.string().optional(),
-    weight: z.string().optional(),
-    education: z.string().optional(),
+    name: z.string()
+        .min(3, { message: "Must be at least 3 characters" })
+        .max(100, { message: "Must be at most 100 characters" }),
+    age: z.number().int()
+        .min(1, { message: "Must be greater than 1" })
+        .max(120, { message: "Must be less than 120" })
+        .optional(),
+    // cm
+    height: z.number().int()
+        .min(1, { message: "Must be greater than 1" })
+        .max(250, { message: "Must be less than 250" })
+        .optional(),
+    // kg
+    weight: z.number().int()
+        .min(1, { message: "Must be greater than 1" })
+        .max(250, { message: "Must be less than 250" })
+        .optional(),
+    description: z.string()
+        .min(3, { message: "Must be at least 3 characters" })
+        .max(250, { message: "Must be at most 250 characters" }),
+    education: z.nativeEnum(Education).optional().nullable(),
     occupation: z.string().optional(),
     location: z.string().optional(),
     relationship: z.string().optional(),
-    income: z.string().optional(),
-    hobbies: z.string().optional(),
-    interests: z.string().optional(),
-    values: z.string().optional(),
-    goals: z.string().optional(),
-    challenges: z.string().optional(),
-    fears: z.string().optional(),
-    personality: z.string().optional(),
-    background: z.string().optional(),
-    image: z.string().optional(),
+    // USD
+    income: z.number().int().optional(),
+    // image: z.string().optional(),
 });
 
-function PersonaForm() {
+function PersonaForm({
+    onSuccess,
+    persona,
+}: {
+    onSuccess: () => void;
+    persona?: Persona | null;
+}) {
     const form = useForm({
         resolver: zodResolver(createPersonaFormSchema),
         defaultValues: {
             name: '',
+            age: 18,
+            height: 120,
+            weight: 120,
             description: '',
-            age: 0,
-            height: '',
-            weight: '',
-            education: '',
+            education: null,
             occupation: '',
             location: '',
             relationship: '',
-            income: '',
-            hobbies: '',
-            interests: '',
-            values: '',
-            goals: '',
-            challenges: '',
-            fears: '',
-            personality: '',
-            background: '',
-            image: '',
+            income: 0,
+            // image: '',
         },
     });
 
-    function onSubmit(values: z.infer<typeof createPersonaFormSchema>) {
-        console.log(values);
+    const { mutate: createPersona, isError, error } = useCreatePersona();
+    const { mutate: deletePersona } = useDeletePersona();
+    const { mutate: updatePersona } = useUpdatePersona();
+    async function onSubmit(values: z.infer<typeof createPersonaFormSchema>) {
+        try {
+            const isUpdate = !!persona?.id;
+            const personaData = {
+                ...(isUpdate && { id: persona.id }),
+                name: values.name,
+                age: values.age,
+                height: values.height,
+                weight: values.weight,
+                description: values.description,
+                education: values.education,
+                occupation: values.occupation,
+                location: values.location,
+                relationship: values.relationship,
+                income: values.income,
+                // image: values.image
+            } as Persona;
+
+            if (!isUpdate) {
+                await createPersona(personaData);
+            } else {
+                await updatePersona(personaData);
+            }
+
+            if (onSuccess) onSuccess();
+        } catch (e) {
+            console.error('fail: onSubmit', e);
+        }
     }
 
     const [isAdvancedMode, setIsAdvancedMode] = useState(false);
 
+    const onDelete = async () => {
+        try {
+            if (!persona) return;
+            await deletePersona(persona.id);
+            if (onSuccess) onSuccess();
+        } catch (e) {
+            console.error('fail: onDelete', e);
+        }
+    }
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-1 overflow-y-scroll h-screen">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-1 overflow-y-scroll h-full">
                 <FormField
                     control={form.control}
                     name="name"
@@ -125,6 +173,7 @@ function PersonaForm() {
                                                 className="w-full"
                                                 disabled={false}
                                                 type="number"
+                                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
                                             />
                                         )}
                                     />
@@ -149,6 +198,7 @@ function PersonaForm() {
                                                 {...field}
                                                 className="w-full"
                                                 disabled={false}
+                                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
                                             />
                                         )}
                                     />
@@ -174,6 +224,7 @@ function PersonaForm() {
                                                 className="w-full"
                                                 disabled={false}
                                                 type="number"
+                                                onChange={(e) => field.onChange(e.target.valueAsNumber)}
                                             />
                                         )}
                                     />
@@ -358,184 +409,7 @@ function PersonaForm() {
 
                         />
 
-                        <FormField
-                            control={form.control}
-                            name="hobbies"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Hobbies</FormLabel>
-                                    <FormControl>
-                                        <Controller
-                                            name="hobbies"
-                                            control={form.control}
-                                            render={({ field }) => (
-                                                <Input
-                                                    {...field}
-                                                    className="w-full"
-                                                    disabled={false}
-                                                />
-                                            )}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>
-                            )}
-
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="interests"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Interests</FormLabel>
-                                    <FormControl>
-                                        <Controller
-                                            name="interests"
-                                            control={form.control}
-                                            render={({ field }) => (
-                                                <Input
-                                                    {...field}
-                                                    className="w-full"
-                                                    disabled={false}
-                                                />
-                                            )}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>
-                            )}
-
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="values"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Values</FormLabel>
-                                    <FormControl>
-                                        <Controller
-                                            name="values"
-                                            control={form.control}
-                                            render={({ field }) => (
-                                                <input {...field} className="w-full" disabled={false} />
-                                            )}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>
-                            )}
-
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="goals"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Goals</FormLabel>
-                                    <FormControl>
-                                        <Controller
-                                            name="goals"
-                                            control={form.control}
-                                            render={({ field }) => (
-                                                <input {...field} className="w-full" disabled={false} />
-                                            )}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>
-                            )}
-
-                        />
-
-
-                        <FormField
-                            control={form.control}
-                            name="challenges"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Challenges</FormLabel>
-                                    <FormControl>
-                                        <Controller
-                                            name="challenges"
-                                            control={form.control}
-                                            render={({ field }) => (
-                                                <input {...field} className="w-full" disabled={false} />
-                                            )}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>
-                            )}
-
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="fears"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Fears</FormLabel>
-                                    <FormControl>
-                                        <Controller
-                                            name="fears"
-                                            control={form.control}
-                                            render={({ field }) => (
-                                                <input {...field} className="w-full" disabled={false} />
-                                            )}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>
-                            )}
-
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="personality"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Personality</FormLabel>
-                                    <FormControl>
-                                        <Controller
-                                            name="personality"
-                                            control={form.control}
-                                            render={({ field }) => (
-                                                <input {...field} className="w-full" disabled={false} />
-                                            )}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>
-                            )}
-
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="background"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Background</FormLabel>
-                                    <FormControl>
-                                        <Controller
-                                            name="background"
-                                            control={form.control}
-                                            render={({ field }) => (
-                                                <input {...field} className="w-full" disabled={false} />
-                                            )}
-                                        />
-                                    </FormControl>
-                                    <FormMessage className="text-xs" />
-                                </FormItem>
-                            )}
-
-                        />
-
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name="image"
                             render={({ field }) => (
@@ -553,19 +427,31 @@ function PersonaForm() {
                                     <FormMessage className="text-xs" />
                                 </FormItem>
                             )}
-
-                        />
+                        /> */}
 
                     </>
                 )}
 
-                <Button
-                    type="submit"
-                    className="w-full"
-                    disabled={false}
-                >
-                    Create Persona
-                </Button>
+                <div className="flex gap-x-2">
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={false}
+                    >
+                        Create Persona
+                    </Button>
+
+                    {persona && (
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            disabled={false}
+                            onClick={onDelete}
+                        >
+                            Delete
+                        </Button>
+                    )}
+                </div>
             </form>
         </Form>
     );
