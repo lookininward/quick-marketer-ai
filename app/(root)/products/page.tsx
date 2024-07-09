@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/table"
 import { Dialog } from "@/components/ui/dialog"
 import { useMemo, useState } from "react";
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import { useFetchProducts } from "@/query-api/queries/useFetchProducts";
@@ -19,6 +18,7 @@ import ContactDialogContent from "@/components/ContactDialogContent";
 import ProductsHeader from "@/components/products/ProductsHeader";
 import ProductDialogContent from "@/components/products/ProductDialogContent";
 import ProductsTableHeader from "@/components/products/ProductsTableHeader";
+import Image from "next/image";
 
 const PRODUCTS_INFO = "Add products to generate product-specific content. Use products to categorize content based on specific themes, target audiences, or campaign objectives. Effortlessly filter through vast libraries of generated content to find the exact pieces that align with current marketing strategies.";
 
@@ -70,8 +70,13 @@ function Products() {
                 <TableBody>
                     {!isLoadingProducts && filteredProducts?.map((product: Product) => (
                         <TableRow key={product.id}>
+                            <TableCell className="py-2">
+                                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                    {product.thumbnail ? <Image src={product.thumbnail} alt={product.name} className="w-10 h-10 rounded-full" /> : product.name[0]}
+                                </div>
+                            </TableCell>
                             <TableCell className="w-1/4 py-2">
-                                <Badge variant="default">{product.name}</Badge>
+                                {product.name}
                             </TableCell>
                             <TableCell className="w-2/4 py-2">
                                 <span className="w-full">

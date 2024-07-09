@@ -6,11 +6,9 @@ export default function Home() {
   const paragraphs = CONTENT.split('\n\n');
   return (
     <main className="py-7 px-10 flex flex-col align-center overflow-y-scroll h-full">
-      <h1 className="text-xl font-semibold mb-4">Library</h1>
-      <hr className="border-gray-300 border-1 w-full mb-6" />
+      <h1 className="text-xl font-semibold mb-6">Projects</h1>
       <LibraryContainer />
-      <hr className="border-gray-300 border-1 w-full my-10" />
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center mt-20 pb-20">
         {paragraphs.map((paragraph, index) => (
           <p key={index} className="py-3 max-w-3xl">
             {paragraph}

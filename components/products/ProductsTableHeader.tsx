@@ -5,6 +5,7 @@ function ProductsTableHeader() {
     return (
         <TableHeader>
             <TableRow>
+                <TableHead></TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Description</TableHead>
                 <TableHead></TableHead>

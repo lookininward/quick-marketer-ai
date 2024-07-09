@@ -26,6 +26,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { PlusIcon, MicrophoneIcon } from "@heroicons/react/24/outline";
 import { useFetchTags } from "@/query-api/queries/useFetchTags";
 import { useFetchProducts } from "@/query-api/queries/useFetchProducts";
+import { useFetchPersonas } from "@/query-api/queries/useFetchPersonas";
 
 export const freeCreateFormSchema = z.object({
     platform: z.enum([
@@ -136,6 +137,7 @@ function FreeCreateForm() {
 
     const { data: subjects, isLoading: isLoadingSubjects } = useFetchTags();
     const { data: products, isLoading: isLoadingProducts } = useFetchProducts();
+    const { data: personas, isLoading: isLoadingPersonas } = useFetchPersonas();
 
     return (
         <Form {...form}>

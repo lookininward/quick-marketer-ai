@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/table"
 import { Dialog } from "@/components/ui/dialog"
 import { useMemo, useState } from "react";
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import Info from "@/components/Info";
@@ -19,6 +18,7 @@ import PersonasHeader from "@/components/personas/PersonasHeader";
 import { useFetchPersonas } from "@/query-api/queries/useFetchPersonas";
 import PersonasTableHeader from "@/components/personas/PersonasTableHeader";
 import PersonaDialogContent from "@/components/personas/PersonaDialogContent";
+import Image from "next/image";
 
 const PERSONAS_INFO = "Add personas to generate persona-specific content. Use personas to categorize content based on specific themes, target audiences, or campaign objectives. Effortlessly filter through vast libraries of generated content to find the exact pieces that align with current marketing strategies.";
 
@@ -70,8 +70,15 @@ function Personas() {
                 <TableBody>
                     {!isLoadingPersonas && filteredPersonas?.map((persona: Persona) => (
                         <TableRow key={persona.id}>
+                            <TableCell className="py-2">
+                                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                                    {persona.thumbnail ? <Image src={persona.thumbnail} alt={persona.name} className="w-10 h-10 rounded-full" /> : persona.name[0]}
+                                </div>
+                            </TableCell>
                             <TableCell className="w-1/4 py-2">
-                                <Badge variant="default">{persona.name}</Badge>
+                                <span className="w-full">
+                                    {persona.name}
+                                </span>
                             </TableCell>
                             <TableCell className="w-2/4 py-2">
                                 <span className="w-full">

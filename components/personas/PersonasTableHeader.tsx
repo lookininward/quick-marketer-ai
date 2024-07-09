@@ -5,6 +5,7 @@ function PersonasTableHeader() {
     return (
         <TableHeader>
             <TableRow>
+                <TableHead></TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Description</TableHead>
                 <TableHead></TableHead>

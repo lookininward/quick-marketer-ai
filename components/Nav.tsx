@@ -4,7 +4,7 @@ import { HomeModernIcon, SparklesIcon, ShoppingCartIcon, UserGroupIcon, TagIcon 
 const LINKS = [
     {
         href: "/",
-        text: "Library",
+        text: "Projects",
         icon: HomeModernIcon
     },
     {

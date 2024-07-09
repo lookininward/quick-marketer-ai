@@ -2,6 +2,7 @@ declare type Product = {
     id: string;
     name: string;
     description: string;
+    thumbnail?: string;
 };
 
 declare type Persona = {
@@ -11,11 +12,12 @@ declare type Persona = {
     height: number; // cm
     weight: number; // kg
     description: string;
-    education: Education;
-    occupation: string;
-    location: string;
-    relationship: string;
-    income: number; // USD
+    thumbnail?: string;
+    education?: Education;
+    occupation?: string;
+    location?: string;
+    relationship?: string;
+    income?: number; // USD
 };
 
 declare type Platform = {
